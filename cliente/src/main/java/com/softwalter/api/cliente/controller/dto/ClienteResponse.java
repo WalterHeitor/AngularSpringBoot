@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +28,7 @@ public class ClienteResponse {
                 .nome(cliente.getNome())
                 .cpf(cliente.getCpf())
                 .foneCelular(cliente.getFoneCelular())
-                .dataCadastro(cliente.getDatacriacao())
+                .dataCadastro(cliente.getDataCriacao())
                 .email(cliente.getEmail())
                 .ativo(cliente.getAtivo())
                 .dataAtualizacao(cliente.getDataAtualizacao())

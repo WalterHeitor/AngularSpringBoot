@@ -28,13 +28,27 @@ public class ClienteContrloller {
         var local = uriComponents.toUri();
         return ResponseEntity.created(local).body(clienteResponse);
     }
+
     @GetMapping("{id}")
-    public ResponseEntity<ClienteResponse> buscarCliente(@PathVariable String id){
+    public ResponseEntity<ClienteResponse> buscarCliente(@PathVariable String id) {
         return ResponseEntity.ok(clienteCrud.buscarClientePorId(Long.parseLong(id)));
     }
+
     @DeleteMapping("{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletarCliente(@PathVariable String id){
+    public void deletarCliente(@PathVariable String id) {
+
         clienteCrud.deletarClientePorId(Long.parseLong(id));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<ClienteResponse> atualizarClientePorId(
+            @PathVariable String id,
+            @RequestBody ClienteRequest clienteRequest
+            ) {
+        final ClienteResponse clienteResponse = clienteCrud.atualizarCliente(
+                Long.parseLong(id),
+                clienteRequest);
+        return ResponseEntity.ok(clienteResponse);
     }
 }

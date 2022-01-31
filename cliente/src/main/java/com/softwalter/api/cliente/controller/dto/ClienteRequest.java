@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
@@ -25,6 +24,8 @@ public class ClienteRequest {
                 .cpf(this.cpf)
                 .email(this.email)
                 .foneCelular(this.foneCelular)
+                .dataCriacao(LocalDateTime.now())
+                .ativo(true)
                 .build();
     }
 }

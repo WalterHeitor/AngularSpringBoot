@@ -7,4 +7,5 @@ public interface ClienteCrud {
     ClienteResponse cadastrarCliente(ClienteRequest clienteRequest);
     ClienteResponse buscarClientePorId(Long idPessoa);
     void deletarClientePorId(Long idPessoa);
+    ClienteResponse atualizarCliente(Long id, ClienteRequest clienteRequest);
 }

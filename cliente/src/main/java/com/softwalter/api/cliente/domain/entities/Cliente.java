@@ -3,10 +3,7 @@ package com.softwalter.api.cliente.domain.entities;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -26,7 +23,7 @@ public class Cliente {
     private String email;
     private String cpf;
     private String foneCelular;
-    private LocalDateTime datacriacao;
+    private LocalDateTime dataCriacao;
     private LocalDateTime dataAtualizacao;
     private Boolean ativo;
     @Override
