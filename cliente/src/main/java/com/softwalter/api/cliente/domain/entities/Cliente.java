@@ -1,30 +1,44 @@
 package com.softwalter.api.cliente.domain.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.util.Objects;
+
+
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_pessoa;
-    @Column(nullable = false, length = 150)
+    private Long idPessoa;
     private String nome;
-    @Column(nullable = false, length = 11)
-    private String cpf;
-    @Column(nullable = false, length = 150)
-    private String foneCelular;
-
-    private LocalDateTime dataCadastro;
     private String email;
-    private Boolean ativo;
+    private String cpf;
+    private String foneCelular;
+    private LocalDateTime datacriacao;
     private LocalDateTime dataAtualizacao;
+    private Boolean ativo;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Cliente cliente = (Cliente) o;
+        return idPessoa != null && Objects.equals(idPessoa, cliente.idPessoa);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
