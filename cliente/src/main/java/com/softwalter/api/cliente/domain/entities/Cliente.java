@@ -1,9 +1,13 @@
 package com.softwalter.api.cliente.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -19,11 +23,18 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPessoa;
+    @Column(nullable = false)
     private String nome;
+    @Column
     private String email;
+    @Column(unique = true)
     private String cpf;
+    @Column
     private String foneCelular;
+    @Column(updatable = false)
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataCriacao;
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataAtualizacao;
     private Boolean ativo;
     @Override

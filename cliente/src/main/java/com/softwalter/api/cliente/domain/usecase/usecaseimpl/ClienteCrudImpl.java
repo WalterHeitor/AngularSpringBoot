@@ -1,7 +1,7 @@
 package com.softwalter.api.cliente.domain.usecase.usecaseimpl;
 
-import com.softwalter.api.cliente.controller.dto.ClienteRequest;
-import com.softwalter.api.cliente.controller.dto.ClienteResponse;
+import com.softwalter.api.cliente.rest.dto.ClienteRequest;
+import com.softwalter.api.cliente.rest.dto.ClienteResponse;
 import com.softwalter.api.cliente.domain.entities.Cliente;
 import com.softwalter.api.cliente.domain.repositories.ClienteRepository;
 import com.softwalter.api.cliente.domain.usecase.ClienteCrud;
@@ -38,7 +38,8 @@ public class ClienteCrudImpl implements ClienteCrud {
                     clienteRepository.delete(cliente);
                     return Void.TYPE;
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
     }
 
     @Override
@@ -52,18 +53,9 @@ public class ClienteCrudImpl implements ClienteCrud {
                     cliente.setFoneCelular(clienteRequest.getFoneCelular());
                     cliente.setDataAtualizacao(LocalDateTime.now());
                     return cliente;
-//                    return Cliente.builder()
-//                            .idPessoa(id)
-//                            .nome(clienteRequest.getNome())
-//                            .cpf(clienteRequest.getCpf())
-//                            .email(clienteRequest.getEmail())
-//                            .foneCelular(clienteRequest.getFoneCelular())
-//                            .dataCriacao(cliente.getDataCriacao())
-//                            .dataAtualizacao(LocalDateTime.now())
-//                            .ativo(cliente.getAtivo())
-//                            .build();
                 })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
         clienteRepository.save(clienteAtualizado);
         return ClienteResponse.toResponse(clienteAtualizado);
     }

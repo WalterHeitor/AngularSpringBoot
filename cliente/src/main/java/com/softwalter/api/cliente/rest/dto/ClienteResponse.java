@@ -1,4 +1,4 @@
-package com.softwalter.api.cliente.controller.dto;
+package com.softwalter.api.cliente.rest.dto;
 
 import com.softwalter.api.cliente.domain.entities.Cliente;
 import lombok.AllArgsConstructor;

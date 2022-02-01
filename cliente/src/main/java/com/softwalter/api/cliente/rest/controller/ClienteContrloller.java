@@ -1,7 +1,7 @@
-package com.softwalter.api.cliente.controller;
+package com.softwalter.api.cliente.rest.controller;
 
-import com.softwalter.api.cliente.controller.dto.ClienteRequest;
-import com.softwalter.api.cliente.controller.dto.ClienteResponse;
+import com.softwalter.api.cliente.rest.dto.ClienteRequest;
+import com.softwalter.api.cliente.rest.dto.ClienteResponse;
 import com.softwalter.api.cliente.domain.usecase.ClienteCrud;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/softwalter/api/clientes")
@@ -19,7 +21,7 @@ public class ClienteContrloller {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<ClienteResponse> cadastrarCliente(
-            @RequestBody ClienteRequest request,
+            @RequestBody @Valid  ClienteRequest request,
             UriComponentsBuilder uriComponentsBuilder) {
         final ClienteResponse clienteResponse = clienteCrud.cadastrarCliente(request);
         UriComponents uriComponents =
@@ -44,7 +46,7 @@ public class ClienteContrloller {
     @PutMapping("{id}")
     public ResponseEntity<ClienteResponse> atualizarClientePorId(
             @PathVariable String id,
-            @RequestBody ClienteRequest clienteRequest
+            @RequestBody @Valid ClienteRequest clienteRequest
             ) {
         final ClienteResponse clienteResponse = clienteCrud.atualizarCliente(
                 Long.parseLong(id),
