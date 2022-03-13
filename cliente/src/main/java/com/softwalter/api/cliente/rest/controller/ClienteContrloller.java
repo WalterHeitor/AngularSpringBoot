@@ -1,16 +1,16 @@
 package com.softwalter.api.cliente.rest.controller;
 
 import com.softwalter.api.cliente.domain.usecase.ClienteService;
+import com.softwalter.api.cliente.rest.dto.ClientePageResponse;
 import com.softwalter.api.cliente.rest.dto.ClienteRequest;
 import com.softwalter.api.cliente.rest.dto.ClienteResponse;
 import com.softwalter.api.cliente.domain.usecase.ClienteCrud;
+import com.softwalter.api.cliente.utils.AppConstants;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/softwalter/api/clientes")
@@ -66,13 +67,18 @@ public class ClienteContrloller {
 
     @GetMapping("/listclientes")
     @Cacheable("cliente")
-    public ResponseEntity execute(
-            @PageableDefault(sort = "name",
-                    direction = Sort.Direction.ASC,
-                    page = 0,
-                    size = 10) Pageable page) {
+    public ResponseEntity<ClientePageResponse> execute(
+            @RequestParam(value = "ativo", defaultValue = "", required = false) Boolean ativo,
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+            @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+    ) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 
-        return ResponseEntity.ok(clienteService.executePage(page));
+        return ResponseEntity.ok(clienteService.executePage(ativo, pageable));
     }
 
 //    @PutMapping("/{id}")
