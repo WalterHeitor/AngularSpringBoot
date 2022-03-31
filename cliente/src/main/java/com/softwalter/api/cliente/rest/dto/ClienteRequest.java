@@ -1,6 +1,7 @@
 package com.softwalter.api.cliente.rest.dto;
 
 
+import com.softwalter.api.cliente.domain.ValidUUID;
 import com.softwalter.api.cliente.domain.entities.Cliente;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,8 @@ import java.time.LocalDateTime;
 public class ClienteRequest {
     @NotBlank
     private String nome;
-    @CPF
+    //@CPF
+    @ValidUUID()
     private String cpf;
     private String foneCelular;
     private String email;

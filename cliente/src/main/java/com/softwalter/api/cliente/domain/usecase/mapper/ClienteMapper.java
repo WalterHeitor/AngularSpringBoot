@@ -11,10 +11,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class ClienteMapper {
-    public ClienteResponse mapper(List<Cliente> content) {
-
-        return null;
-    }
 
     public ClientePageResponse mapperListResponse(Page<Cliente> clienteList) {
         final List<ClienteResponse> responseList = clienteList.stream().map(cliente ->
@@ -30,6 +26,7 @@ public class ClienteMapper {
                                 .dataAtualizacao(cliente.getDataAtualizacao())
                                 .build())
                 .collect(Collectors.toList());
+
         return ClientePageResponse.builder()
                 .data(responseList)
                 .pageNo(clienteList.getNumber())

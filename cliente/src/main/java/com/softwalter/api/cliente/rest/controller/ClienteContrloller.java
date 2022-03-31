@@ -1,5 +1,7 @@
 package com.softwalter.api.cliente.rest.controller;
 
+import com.softwalter.api.cliente.domain.MinhaValidacaoUUID;
+import com.softwalter.api.cliente.domain.ValidUUID;
 import com.softwalter.api.cliente.domain.usecase.ClienteService;
 import com.softwalter.api.cliente.rest.dto.ClientePageResponse;
 import com.softwalter.api.cliente.rest.dto.ClienteRequest;
@@ -13,16 +15,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/softwalter/api/clientes")
 @AllArgsConstructor
+@Validated
 public class ClienteContrloller {
 
     private ClienteCrud clienteCrud;
@@ -41,7 +44,7 @@ public class ClienteContrloller {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ClienteResponse> buscarCliente(@PathVariable String id) {
+    public ResponseEntity<ClienteResponse> buscarCliente(@PathVariable @MinhaValidacaoUUID( fieldName = "id") String id) {
         return ResponseEntity.ok(clienteCrud.buscarClientePorId(Long.parseLong(id)));
     }
 
@@ -65,7 +68,7 @@ public class ClienteContrloller {
 
 
 
-    @GetMapping("/listclientes")
+    @GetMapping("/listclientes{idProposta}")
     @Cacheable("cliente")
     public ResponseEntity<ClientePageResponse> execute(
             @RequestParam(value = "ativo", defaultValue = "", required = false) Boolean ativo,

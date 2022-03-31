@@ -23,12 +23,6 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     ClienteMapper clienteMapper;
 
-    public ClienteResponse execute(Pageable page){
-        return clienteMapper.mapper(
-                clienteRepository.findAll(page).getContent()
-        );
-    }
-
     @Override
     public ClientePageResponse executePage(Boolean ativo, Pageable page) {
 
