@@ -19,7 +19,7 @@ public class ClienteRequest {
     @NotBlank
     private String nome;
     //@CPF
-    @ValidUUID()
+    //@ValidUUID()
     private String cpf;
     private String foneCelular;
     private String email;
