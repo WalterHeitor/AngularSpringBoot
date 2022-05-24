@@ -1,11 +1,14 @@
 package com.softwalter.api.cliente.domain.usecase.usecaseimpl;
 
+import com.softwalter.api.cliente.domain.usecase.ServicoMessagens;
 import com.softwalter.api.cliente.rest.dto.ClienteRequest;
 import com.softwalter.api.cliente.rest.dto.ClienteResponse;
 import com.softwalter.api.cliente.domain.entities.Cliente;
 import com.softwalter.api.cliente.domain.repositories.ClienteRepository;
 import com.softwalter.api.cliente.domain.usecase.ClienteCrud;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import lombok.val;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -13,13 +16,30 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 
+@Log4j2
 @Component
 @AllArgsConstructor
 public class ClienteCrudImpl implements ClienteCrud {
+
     private ClienteRepository clienteRepository;
+    private ServicoMessagens servicoMessagens;
+    private ServicoMessagensImpl messagens;
+
+
+
     @Override
     public ClienteResponse cadastrarCliente(ClienteRequest clienteRequest) {
-        return  ClienteResponse.toResponse(clienteRepository.save(clienteRequest.toCliente()));
+        final Cliente cliente = clienteRepository.save(clienteRequest.toCliente());
+
+        try {
+            log.info("lancando exception");
+            messagens.enviarMSN(cliente);
+            log.info("nao cai no erro");
+        } catch (Exception exception) {
+            log.error("caiu no erro Erro: "+exception);
+        }
+ //           servicoMessagens.enviarMessagem(cliente);
+        return  ClienteResponse.toResponse(cliente);
     }
 
     @Override

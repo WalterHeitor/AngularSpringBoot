@@ -1,0 +1,12 @@
+{
+  "type": "record",
+  "name": "TopicoCliente",
+  "namespace": "com.sofwalter.topico.cliente",
+  "fields": [
+    {
+      "name": "id_pessoa",
+      "type": ["null", "string"]
+    }
+
+  ]
+}

@@ -1,7 +1,25 @@
+//import com.commercehub.gradle.plugin.avro.GenerateAvroJavaTask
+buildscript {
+	repositories {
+		mavenCentral()
+		maven { url 'https://plugins.gradle.org/m2/' }
+		maven { url "https://packages.confluent.io/maven" }
+		maven { url "https://repo.spring.io/snapshot" }
+		maven { url "https://repo.spring.io/milestone" }
+	}
+	dependencies {
+		//plugin needed to generate POJO from Avro schema
+		classpath("com.commercehub.gradle.plugin:gradle-avro-plugin:0.14.2")
+	}
+}
 plugins {
+	id 'application'
 	id 'org.springframework.boot' version '2.6.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+//	id "com.commercehub.gradle.plugin.avro" version "0.99.99"
+//	id 'avro-gradle-plugin'
+	id "com.github.davidmc24.gradle.plugin.avro" version "1.3.0"
 }
 
 group = 'com.softwalter.api'
@@ -16,6 +34,12 @@ configurations {
 
 repositories {
 	mavenCentral()
+	gradlePluginPortal()
+//	maven { url "https://plugins.gradle.org/m2/" }
+	maven { url "https://packages.confluent.io/maven" }
+
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
 }
 
 dependencies {
@@ -29,13 +53,50 @@ dependencies {
 	implementation 'org.springframework.retry:spring-retry:1.3.1'
 	// https://mvnrepository.com/artifact/org.springframework/spring-aspects
 	implementation 'org.springframework:spring-aspects:5.3.18'
+	// https://mvnrepository.com/artifact/log4j/log4j
+	implementation 'log4j:log4j:1.2.17'
+	// https://mvnrepository.com/artifact/org.springframework.kafka/spring-kafka
+	implementation 'org.springframework.kafka:spring-kafka:2.8.2'
+	// https://mvnrepository.com/artifact/io.confluent/kafka-avro-serializer
+	implementation 'io.confluent:kafka-avro-serializer:6.2.0'
+	// https://mvnrepository.com/artifact/io.confluent/kafka-schema-registry-client
+	implementation 'io.confluent:kafka-schema-registry-client:6.2.0'
+	// https://mvnrepository.com/artifact/org.apache.avro/avro
+	implementation 'org.apache.avro:avro:1.11.0'
+	// https://mvnrepository.com/artifact/org.apache.avro/avro-compiler
+	implementation 'org.apache.avro:avro-compiler:1.11.0'
 
+	// https://mvnrepository.com/artifact/com.github.imflog.kafka-schema-registry-gradle-plugin/com.github.imflog.kafka-schema-registry-gradle-plugin.gradle.plugin
+	//implementation 'com.github.imflog.kafka-schema-registry-gradle-plugin:com.github.imflog.kafka-schema-registry-gradle-plugin.gradle.plugin:1.6.0'
+
+
+	// https://mvnrepository.com/artifact/org.apache.avro/avro-gradle-plugin
+	//implementation 'org.apache.avro:avro-gradle-plugin:1.7.2'
+
+//	implementation "com.commercehub.gradle.plugin:gradle-avro-plugin:0.99.99"
+
+
+	compileOnly "org.apache.avro:avro:1.9.0"
 	compileOnly 'org.projectlombok:lombok:1.18.22'
 	runtimeOnly 'com.h2database:h2:2.1.210'
 	annotationProcessor 'org.projectlombok:lombok:1.18.22'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
+
+	compileOnly 'org.springframework:spring-core:5.0.8.RELEASE'
+	compileOnly 'org.springframework:spring-beans:5.0.8.RELEASE'
+	//for gradle-avro-plugin to work correctly need avro version 1.8.2
+	compileOnly "org.apache.avro:avro:1.8.2"
+	compileOnly 'io.confluent:kafka-avro-serializer:4.1.1'
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+generateAvroJava {
+	source(rootDir)
+}
+
+
+
+

@@ -30,3 +30,7 @@ spring:
 #    hibernate.ddl-auto: update
 #    generate-ddl: true
 #    show-sql: true
+config:
+  retry:
+    maxAttempts: 5
+    maxDelay: 1000
