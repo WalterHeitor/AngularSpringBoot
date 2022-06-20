@@ -1,4 +1,22 @@
+auto:
+  create:
+    topics:
+      enable: 'true'
 spring:
+  kafka:
+    bootstrap-servers: localhost:29092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+      client-id: topico-pessoa-producer
+    properties:
+      schema:
+        registry:
+          url: http://0.0.0.0:8085
+      specific:
+        avro:
+          reader: true
+
   datasource:
     url: jdbc:h2:mem:mydb;MODE=LEGACY
     username: sa
@@ -25,6 +43,7 @@ spring:
       settings:
         trace: false
         web-allow-others: false
+
 #  jpa:
 #    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 #    hibernate.ddl-auto: update
@@ -34,3 +53,14 @@ config:
   retry:
     maxAttempts: 5
     maxDelay: 1000
+
+topico:
+  nome: TOPICO_CLIENTE
+  client_id: walter_id
+
+
+
+
+
+
+

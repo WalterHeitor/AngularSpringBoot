@@ -1,6 +1,7 @@
 package com.softwalter.api.cliente.domain.usecase.usecaseimpl;
 
 import com.softwalter.api.cliente.domain.usecase.ServicoMessagens;
+import com.softwalter.api.cliente.integratios.kafka.ClienteKafkaProducer;
 import com.softwalter.api.cliente.rest.dto.ClienteRequest;
 import com.softwalter.api.cliente.rest.dto.ClienteResponse;
 import com.softwalter.api.cliente.domain.entities.Cliente;
@@ -22,8 +23,8 @@ import java.time.LocalDateTime;
 public class ClienteCrudImpl implements ClienteCrud {
 
     private ClienteRepository clienteRepository;
-    private ServicoMessagens servicoMessagens;
     private ServicoMessagensImpl messagens;
+    private ClienteKafkaProducer clienteKafkaProducer;
 
 
 
@@ -31,13 +32,14 @@ public class ClienteCrudImpl implements ClienteCrud {
     public ClienteResponse cadastrarCliente(ClienteRequest clienteRequest) {
         final Cliente cliente = clienteRepository.save(clienteRequest.toCliente());
 
-        try {
-            log.info("lancando exception");
-            messagens.enviarMSN(cliente);
-            log.info("nao cai no erro");
-        } catch (Exception exception) {
-            log.error("caiu no erro Erro: "+exception);
-        }
+        clienteKafkaProducer.enviarTopicoCliente(cliente.getIdPessoa().toString(), cliente);
+//        try {
+//            log.info("lancando exception");
+//            messagens.enviarMSN(cliente);
+//            log.info("nao cai no erro");
+//        } catch (Exception exception) {
+//            log.error("caiu no erro Erro: "+exception);
+//        }
  //           servicoMessagens.enviarMessagem(cliente);
         return  ClienteResponse.toResponse(cliente);
     }

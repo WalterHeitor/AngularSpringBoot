@@ -3,7 +3,6 @@ package com.softwalter.api.cliente.domain.usecase.usecaseimpl;
 import com.softwalter.api.cliente.domain.entities.Cliente;
 import com.softwalter.api.cliente.domain.usecase.ServicoMessagens;
 import com.softwalter.api.cliente.utils.ExternalService;
-import com.sofwalter.topico.cliente.TopicoCliente;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.retry.annotation.Backoff;

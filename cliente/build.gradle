@@ -94,8 +94,10 @@ tasks.named('test') {
 }
 
 generateAvroJava {
-	source(rootDir)
+	//source(rootDir)
+	source("${projectDir}/src/main/resources/avro")//sourcepath avrofile
 }
+
 
 
 
